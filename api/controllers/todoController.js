@@ -4,11 +4,24 @@ let mongoose = require('mongoose');
 let Task = mongoose.model('Task');
 
 exports.allTasks = (req, res) => {
-    res.send('allTasks');
+    Task.find({}, (err, task) => {
+        if (err){
+            res.send(err);
+        } else {
+            res.json(task);
+        }
+    });
 };
 
 exports.createTask = (req, res) => {
-    res.send('createTask');
+    let newTask = new Task(req.body);
+    newTask.save((err, task) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.json(task);
+        }
+    });
 };
 
 exports.getTask = (req, res) => {
